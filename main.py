@@ -1,5 +1,15 @@
 import os
 import whisper
+import subprocess
+import sys
+
+def check_ffmpeg():
+    """Check if ffmpeg is installed and accessible"""
+    try:
+        subprocess.run(["ffmpeg", "-version"], capture_output=True, check=True)
+        return True
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return False
 
 def list_audio_files(directory, extensions=None):
     if extensions is None:
@@ -12,6 +22,21 @@ def list_audio_files(directory, extensions=None):
 
 def main():
     print("Batch audio files transcription to subtitle files using Whisper")
+    
+    # Check for ffmpeg dependency
+    print("Checking for required dependencies...")
+    if not check_ffmpeg():
+        print("ERROR: ffmpeg is not installed or not found in PATH.")
+        print("Please install ffmpeg and add it to your system PATH.")
+        print("")
+        print("Instructions:")
+        print("1. Download ffmpeg from https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl-shared.zip")
+        print("2. Extract the archive")
+        print("3. Add the path to the 'bin' folder (e.g., C:\\ffmpeg\\bin) to your system PATH environment variable")
+        print("4. Restart your command prompt/terminal")
+        print("")
+        print("Alternatively, run the setup.py script which will automatically download and configure ffmpeg.")
+        return
 
     input_dir = None
     while not input_dir or not os.path.isdir(input_dir):
@@ -73,7 +98,12 @@ def main():
             options["language"] = language
         # transcribe returns a dict with 'segments' and 'text'
         audio_path = os.path.join(input_dir, audio_file)
-        result = model.transcribe(audio_path, **options)
+        try:
+            result = model.transcribe(audio_path, **options)
+        except Exception as e:
+            print(f"Error processing file {audio_file}: {str(e)}")
+            print("This might be due to a missing or incompatible ffmpeg installation.")
+            continue
 
         base_name = os.path.splitext(audio_file)[0]
         out_base = os.path.join(output_dir, os.path.basename(base_name))
