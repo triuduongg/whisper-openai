@@ -6,7 +6,10 @@
 #### unzip the file, add the path ...\ffmpeg-master-latest-win64-gpl-shared\bin to the environment variable
 ### Install libraries
 #### use terminal cmd or powershell
-##### pip: ` python -m pip install --upgrade pip `
+##### pip: 
+`
+python -m pip install --upgrade pip
+`
 ##### openai-whisper: ` python -m pip install openai-whisper `
 ##### ffmpeg-python: ` python -m pip install ffmpeg-python `
 ##### pyinstaller: ` python -m pip install pyinstaller `
