@@ -19,6 +19,7 @@
 ### Open main.exe
 ### Copy the folder path containing the audio files and paste it into the first parameter
 ### Select the model you want by entering the corresponding number
+### Enter language to recognize
 ### Select the output file format you want by entering the corresponding number
 ### Copy the path for the output files and paste it into the last parameter
 ## After that just wait for the results
