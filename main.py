@@ -57,8 +57,181 @@ def main():
     model_choice = input("Enter the number corresponding to the model (1-5): ").strip()
     model_name = model_options.get(model_choice, "medium")
 
-    # Remove language selection, always use auto-detect
-    language = None
+    # Language selection - allow direct input of language name
+    supported_languages = {
+        "auto": None,
+        "auto-detect": None,
+        "english": "en",
+        "vietnamese": "vi",
+        "chinese": "zh",
+        "japanese": "ja",
+        "korean": "ko",
+        "spanish": "es",
+        "french": "fr",
+        "german": "de",
+        "russian": "ru",
+        "portuguese": "pt",
+        "italian": "it",
+        "arabic": "ar",
+        "hindi": "hi",
+        "thai": "th",
+        "dutch": "nl",
+        "greek": "el",
+        "turkish": "tr",
+        "polish": "pl",
+        "czech": "cs",
+        "slovak": "sk",
+        "hungarian": "hu",
+        "romanian": "ro",
+        "bulgarian": "bg",
+        "croatian": "hr",
+        "serbian": "sr",
+        "slovenian": "sl",
+        "estonian": "et",
+        "latvian": "lv",
+        "lithuanian": "lt",
+        "finnish": "fi",
+        "swedish": "sv",
+        "danish": "da",
+        "norwegian": "no",
+        "icelandic": "is",
+        "hebrew": "he",
+        "malay": "ms",
+        "indonesian": "id",
+        "filipino": "tl",
+        "ukrainian": "uk",
+        "belarusian": "be",
+        "macedonian": "mk",
+        "albanian": "sq",
+        "armenian": "hy",
+        "azerbaijani": "az",
+        "georgian": "ka",
+        "kazakh": "kk",
+        "kyrgyz": "ky",
+        "mongolian": "mn",
+        "nepali": "ne",
+        "sinhala": "si",
+        "tamil": "ta",
+        "telugu": "te",
+        "malayalam": "ml",
+        "kannada": "kn",
+        "gujarati": "gu",
+        "punjabi": "pa",
+        "bengali": "bn",
+        "marathi": "mr",
+        "oriya": "or",
+        "urdu": "ur",
+        "pashto": "ps",
+        "persian": "fa",
+        "swahili": "sw",
+        "afrikaans": "af",
+        "zulu": "zu",
+        "xhosa": "xh"
+    }
+    
+    print("\nAvailable languages (enter name or 'auto' for auto-detect):")
+    print("Examples: english, vietnamese, chinese, japanese, korean, spanish, french, german, russian, portuguese, italian, arabic, hindi, thai, dutch, greek, turkish, polish, czech, slovak, hungarian, romanian, bulgarian, croatian, serbian, slovenian, estonian, latvian, lithuanian, finnish, swedish, danish, norwegian, icelandic, hebrew, malay, indonesian, filipino, ukrainian, belarusian, macedonian, albanian, armenian, azerbaijani, georgian, kazakh, kyrgyz, mongolian, nepali, sinhala, tamil, telugu, malayalam, kannada, gujarati, punjabi, bengali, marathi, oriya, urdu, pashto, persian, swahili, afrikaans, zulu, xhosa")
+    
+    language_input = input("\nEnter language name (or 'auto' for auto-detect): ").strip().lower()
+    
+    # Map common variations
+    language_aliases = {
+        "auto": None,
+        "auto-detect": None,
+        "eng": "en",
+        "vie": "vi",
+        "chi": "zh",
+        "zho": "zh",
+        "jpn": "ja",
+        "kor": "ko",
+        "spa": "es",
+        "fra": "fr",
+        "fre": "fr",
+        "deu": "de",
+        "ger": "de",
+        "rus": "ru",
+        "por": "pt",
+        "ita": "it",
+        "ara": "ar",
+        "hin": "hi",
+        "tha": "th",
+        "dut": "nl",
+        "nld": "nl",
+        "gre": "el",
+        "ell": "el",
+        "tur": "tr",
+        "pol": "pl",
+        "cze": "cs",
+        "ces": "cs",
+        "slo": "sk",
+        "slk": "sk",
+        "hun": "hu",
+        "rom": "ro",
+        "ron": "ro",
+        "bul": "bg",
+        "hrv": "hr",
+        "ser": "sr",
+        "slv": "sl",
+        "est": "et",
+        "lav": "lv",
+        "lit": "lt",
+        "fin": "fi",
+        "swe": "sv",
+        "dan": "da",
+        "nor": "no",
+        "ice": "is",
+        "isl": "is",
+        "heb": "he",
+        "mal": "ms",
+        "ind": "id",
+        "fil": "tl",
+        "ukr": "uk",
+        "bel": "be",
+        "mac": "mk",
+        "mkd": "mk",
+        "alb": "sq",
+        "sqi": "sq",
+        "arm": "hy",
+        "hye": "hy",
+        "aze": "az",
+        "geo": "ka",
+        "kat": "ka",
+        "kaz": "kk",
+        "kyr": "ky",
+        "mon": "mn",
+        "nep": "ne",
+        "sin": "si",
+        "tam": "ta",
+        "tel": "te",
+        "mal": "ml",
+        "kan": "kn",
+        "guj": "gu",
+        "pan": "pa",
+        "ben": "bn",
+        "mar": "mr",
+        "ori": "or",
+        "urd": "ur",
+        "pus": "ps",
+        "fas": "fa",
+        "swa": "sw",
+        "afr": "af",
+        "zul": "zu",
+        "xho": "xh"
+    }
+    
+    # Merge aliases with main languages
+    all_languages = {**supported_languages, **language_aliases}
+    
+    language = all_languages.get(language_input, None)
+    
+    if language is None:
+        if language_input == "auto" or language_input == "auto-detect":
+            print("Using auto-detect language mode")
+        else:
+            print(f"Warning: '{language_input}' is not a supported language. Using auto-detect mode.")
+            language = None
+    else:
+        print(f"Using language: {language_input.title()}")
 
     output_format_options = {
         "1": "srt",
